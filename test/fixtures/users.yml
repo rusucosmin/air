@@ -5,18 +5,32 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
+  id: 1
   email: one@example.com
   password_digest: test
   role: 0
 two:
+  id: 2
   email: two@example.com
   password_digest: test
   role: :user
 manager:
+  id: 3
   email: manager@example.com
   password_digest: test
   role: 1
 admin:
+  id: 4
   email: admin@example.com
+  password_digest: test
+  role: 2
+manager2:
+  id: 5
+  email: manager2@example.com
+  password_digest: test
+  role: 1
+admin2:
+  id: 6
+  email: "admin2@example.com"
   password_digest: test
   role: 2
