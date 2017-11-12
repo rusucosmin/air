@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :jogging_logs
   # Home controller routes
   root 'home#index'
   get 'auth'                => 'home#auth'

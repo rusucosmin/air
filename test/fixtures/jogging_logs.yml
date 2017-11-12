@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date:
+  duration: 1
+  distance: 1.5
+  user_id: 1
+
+two:
+  date:
+  duration: 1
+  distance: 1.5
+  user_id: 2
