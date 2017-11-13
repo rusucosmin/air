@@ -14,6 +14,9 @@ class UsersController < ApplicationController
     elsif user.save
       render json: user,
           status: 200
+    else
+      render json: { errors: user.errors.full_messages },
+          status: 400
     end
   end
 
