@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   resources :jogging_logs
+  get '/admin/jogging_logs'   => 'jogging_logs#index_admin'
   # Home controller routes
   root 'home#index'
   get 'auth'                => 'home#auth'

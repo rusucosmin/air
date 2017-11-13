@@ -1,10 +1,19 @@
 class JoggingLogsController < ApplicationController
+  before_action :authenticate_user, only: [:index]
+  before_action :authorize_to_create, only: [:create]
+  before_action :authenticate_as_admin, only: [:index_admin]
   before_action :set_jogging_log, only: [:show, :update, :destroy]
+  before_action :authorize, only: [:show, :update, :destroy]
 
   # GET /jogging_logs
   def index
-    @jogging_logs = JoggingLog.all
+    @jogging_logs = current_user.jogging_logs
+    render json: @jogging_logs
+  end
 
+  # GET /admin/jogging_logs
+  def index_admin
+    @jogging_logs = JoggingLog.all
     render json: @jogging_logs
   end
 
@@ -42,6 +51,18 @@ class JoggingLogsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_jogging_log
       @jogging_log = JoggingLog.find(params[:id])
+    end
+
+    def authorize_to_create
+      head :unauthorized unless current_user && (current_user.admin? || current_user.id == params[:jogging_log][:user_id])
+    end
+
+    def authorize
+      head :unauthorized unless current_user && (current_user.admin? || @jogging_log.user_id == current_user.id)
+    end
+
+    def authenticate_as_admin
+      head :unauthorized unless current_user && (current_user.admin?)
     end
 
     # Only allow a trusted parameter "white list" through.

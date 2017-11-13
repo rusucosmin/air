@@ -13,7 +13,7 @@ two:
   id: 2
   email: two@example.com
   password_digest: test
-  role: :user
+  role: 0
 manager:
   id: 3
   email: manager@example.com
