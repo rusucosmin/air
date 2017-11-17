@@ -1,4 +1,4 @@
-var BASE_PATH = "http://0.0.0.0:3000"
+var BASE_PATH = "https://cryptic-brook-11712.herokuapp.com/"
 
 function getJwt() {
   return Cookies.get("jwt")
