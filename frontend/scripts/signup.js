@@ -1,6 +1,5 @@
 $(document).ready(function() {
   buildNav("signup.html")
-  BASE_PATH = "http://0.0.0.0:3000"
   function createAlert(classes, dissmissable, text) {
     d = $("<div>", {"class": classes, "role": "alert"})
     d.html(text)
@@ -21,6 +20,7 @@ $(document).ready(function() {
         password
       }
     }
+    console.log(BASE_PATH)
     $.post(BASE_PATH + "/user", body)
         .done(function(data) {
           $("#alerts").empty()
