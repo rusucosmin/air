@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Joggingly | Home</title>
+    <title>Joggingly | Dashboard</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,7 +23,52 @@
       <center>
         <h1>Welcome to Joggingly!</h1>
       </center>
-      <h2>Home</h2>
+      <h2>Dashboard</h2>
+      <center>
+        <h3>My jogging logs</h3>
+      </center>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Distance</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Average Speed</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+      <div id="filter">
+        <h4>Filter</h4>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputStartDate">Start date</label>
+            <input type="date" class="form-control" id="inputStartDate">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputEndDate">End date</label>
+            <input type="date" class="form-control" id="inputEndDate">
+          </div>
+        </div>
+      </div>
+      <div id="jogg" style="display: none">
+        <h4>Edit jogging log</h4>
+        <div class="form-group">
+          <label for="inputDatd">Date</label>
+          <input type="date" class="form-control" id="inputDate">
+        </div>
+        <div class="form-group">
+          <label for="inputDistance">Distance</label>
+          <input type="number" class="form-control" id="inputDistance">
+        </div>
+        <div class="form-group">
+          <label for="inputDuration">Duration</label>
+          <input type="number" class="form-control" id="inputDuration">
+        </div>
+        <button id="btn" class="btn btn-primary">Update</button>
+      </div>
     </div>
 
     <!-- Optional JavaScript -->
@@ -34,6 +79,6 @@
     <script src="scripts/js.cookie.js"></script>
     <script src="scripts/jquery.redirect.js"></script>
     <script src="scripts/common.js"></script>
-    <script src="scripts/index.js"></script>
+    <script src="scripts/dashboard.js"></script>
   </body>
 </html>

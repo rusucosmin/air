@@ -1,3 +1,3 @@
 $(document).ready(function() {
-  buildNav("index.html")
+  buildNav("jogging_logs.html")
 })

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  match "*path",
+    controller: "application",
+    action: "handle_options_request",
+    via: [:options]
 
   resources :jogging_logs
   get '/admin/jogging_logs'   => 'jogging_logs#index_admin'
@@ -15,4 +19,5 @@ Rails.application.routes.draw do
   post    '/user'           => 'users#create'
   patch   '/user/:id'       => 'users#update'
   delete  '/user/:id'       => 'users#destroy'
+
 end

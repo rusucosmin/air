@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  buildNav("signup.html")
   BASE_PATH = "http://0.0.0.0:3000"
   function createAlert(classes, dissmissable, text) {
     d = $("<div>", {"class": classes, "role": "alert"})
@@ -26,6 +27,9 @@ $(document).ready(function() {
           $("#alerts").append(
               createAlert("alert alert-success alert-dismissible fade show", true, "You successfully signed up. Please login now.")
           )
+          setTimeout(function() {
+            $.redirect("./login.html", {}, "GET")
+          }, 250)
         })
         .fail(function(res) {
           $("#alerts").empty()
