@@ -1,13 +1,43 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  date:
+  date: 2017-11-12
   duration: 1
   distance: 1.5
   user_id: 1
+  id: 1
 
 two:
   date:
   duration: 1
   distance: 1.5
   user_id: 2
+  id: 2
+
+three:
+  date: 2017-11-13
+  duration: 1
+  distance: 1.5
+  user_id: 1
+  id: 3
+
+four:
+  date: 2017-11-14
+  duration: 1
+  distance: 1.5
+  user_id: 1
+  id: 4
+
+five:
+  date: 2017-11-15
+  duration: 1
+  distance: 1.5
+  user_id: 1
+  id: 5
+
+six:
+  date: 2017-11-16
+  duration: 1
+  distance: 1.5
+  user_id: 1
+  id: 6

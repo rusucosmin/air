@@ -1,5 +1,5 @@
 class JoggingLogsController < ApplicationController
-  before_action :authenticate_user, only: [:index]
+  before_action :authenticate_user, only: [:index, :filter]
   before_action :authorize_to_create, only: [:create]
   before_action :authenticate_as_admin, only: [:index_admin]
   before_action :set_jogging_log, only: [:show, :update, :destroy]
@@ -20,6 +20,13 @@ class JoggingLogsController < ApplicationController
   # GET /jogging_logs/1
   def show
     render json: @jogging_log
+  end
+
+  def filter
+    params.permit(:start_date, :end_date)
+#    @jogging_logs = current_user.jogging_logs
+    @jogging_logs = JoggingLog.where('user_id = ? AND ( ? IS NULL OR date >= ? ) AND (? IS NULL OR date <= ?)', current_user.id, params[:start_date], params[:start_date], params[:end_date], params[:end_date])
+    render json: @jogging_logs
   end
 
   # POST /jogging_logs

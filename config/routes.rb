@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     action: "handle_options_request",
     via: [:options]
 
+  get 'jogging_logs/filter'   => 'jogging_logs#filter'
   resources :jogging_logs
   get '/admin/jogging_logs'   => 'jogging_logs#index_admin'
   # Home controller routes

@@ -1,6 +1,6 @@
-function showUser(user) {
-  $("#inputEmail").val(user.email)
-  $("#inputRole").val(user.role)
+function showUser(user_id) {
+  $("#inputEmail").val($("#" + user_id + " .email").text())
+  $("#inputRole").val($("#" + user_id + " .role").text())
 }
 
 var selected = {}
@@ -30,8 +30,8 @@ function addToTable(user) {
             })))
       .attr("id", user.id)
   tr.click(function() {
-    showUser(user)
-    selected = user
+    selected = user.id
+    showUser(user.id)
   })
   $(".table tbody").append(tr)
 }
@@ -78,7 +78,7 @@ $(document).ready(function() {
   })
   $('#btnUpdate').click(function() {
     data = {
-      "id": selected.id,
+      "id": selected,
       "email": $("#inputEmail").val(),
       "password": $("#inputPassword").val(),
       "role": $("#inputRole").val()

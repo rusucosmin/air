@@ -2,7 +2,7 @@ var BASE_PATH = "http://localhost:3000"
 
 setInterval(function() {
   $("#alerts").empty()
-}, 5000)
+}, 10000)
 
 function getJwt() {
   return Cookies.get("jwt")

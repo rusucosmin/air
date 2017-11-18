@@ -1,4 +1,8 @@
 require 'test_helper'
+require 'database_cleaner'
+
+DatabaseCleaner.strategy = :truncation
+
 
 class JoggingLogsControllerTest < ActionDispatch::IntegrationTest
   def authenticated_as_header(user)
@@ -8,6 +12,8 @@ class JoggingLogsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @jogging_log = jogging_logs(:one)
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
   end
 
   test "index should not be public" do
@@ -166,5 +172,58 @@ class JoggingLogsControllerTest < ActionDispatch::IntegrationTest
           headers: authenticated_as_header(users(:manager))
     end
     assert_response :unauthorized
+  end
+
+  test "filter jogging logs should not be public" do
+    get "/jogging_logs/filter"
+    assert_response :unauthorized
+  end
+
+  test "filter jogging logs should return all if nothing is specified" do
+    get "/jogging_logs/filter",
+        headers: authenticated_as_header(users(:one))
+    reply = JSON.parse(response.body)
+    assert_response :success
+    assert_equal reply.length, users(:one).jogging_logs.length
+  end
+
+  test "filter without end time should go to inf" do
+    DatabaseCleaner.clean
+    get "/jogging_logs/filter",
+        params: {:start_date => "2017-11-14"},
+        headers: authenticated_as_header(users(:one))
+    reply = JSON.parse(response.body)
+    assert_response :success
+    assert_equal 3, reply.count
+  end
+
+  test "filter wihtout star time should go from -inf" do
+    DatabaseCleaner.clean
+    get "/jogging_logs/filter",
+        params: {:end_date => "2017-11-15"},
+        headers: authenticated_as_header(users(:one))
+    reply = JSON.parse(response.body)
+    assert_response :success
+    assert_equal 4, reply.count
+  end
+
+  test "filter with both start and end time should behave correctly" do
+    DatabaseCleaner.clean
+    get "/jogging_logs/filter",
+        params: {:start_date => "2017-11-13", :end_date => "2017-11-15"},
+        headers: authenticated_as_header(users(:one))
+    reply = JSON.parse(response.body)
+    assert_response :success
+    assert_equal 3, reply.count
+  end
+
+  test "filter with both start and end time should behave correctly event when start and end time is not correct" do
+    DatabaseCleaner.clean
+    get "/jogging_logs/filter",
+        params: {:start_date => "2017-11-15", :end_date => "2017-11-13"},
+        headers: authenticated_as_header(users(:one))
+    reply = JSON.parse(response.body)
+    assert_response :success
+    assert_equal 0, reply.count
   end
 end

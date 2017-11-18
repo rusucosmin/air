@@ -450,4 +450,28 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal now - 1, User.all.length
     assert_nil User.find_by_id(6)
   end
+
+  test "users should not be able to upgrade themselves to admin" do
+    patch "/user/1",
+        headers: authenticated_as_header(users(:one)),
+        params: { user: { role: "admin"}}
+    assert_response :unauthorized
+    assert_equal User.find(1).role, "user"
+  end
+
+  test "users should not be able to upgrade themselves to managers" do
+    patch "/user/1",
+        params: { user: { role: "manager"}},
+        headers: authenticated_as_header(users(:one))
+    assert_response :unauthorized
+    assert_equal User.find(1).role, "user"
+  end
+
+  test "mangers should not be able to upgrade themselves to admins" do
+    patch "/user/3",
+        params: { user: { role: "admin"}},
+        headers: authenticated_as_header(users(:manager))
+    assert_response :unauthorized
+    assert_equal User.find(3).role, "manager"
+  end
 end

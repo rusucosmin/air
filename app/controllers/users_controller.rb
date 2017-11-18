@@ -11,6 +11,10 @@ class UsersController < ApplicationController
     user = User.new(user_params)
     if !current_user.nil? && User.roles[current_user.role] < User.roles[user.role]
       return head :unauthorized
+    if current_user.nil? && user.role > 0
+      # public should be only normal user
+      return head :unauthorized
+    end
     elsif user.save
       render json: user,
           status: 200
@@ -28,8 +32,11 @@ class UsersController < ApplicationController
   def update
     user = User.find_by_id(params[:id])
     return head :bad_request if !user
-    if authorize_to_update user
-      return
+    return head :unauthorized unless current_user && current_user.can_modify_user?(user)
+    if(params[:user][:role])
+      if user.id == current_user.id && User.roles[current_user.role] < User.roles[params[:user][:role]]
+        return head :unauthorized
+      end
     end
     if user.update(user_params)
       render json: user,
