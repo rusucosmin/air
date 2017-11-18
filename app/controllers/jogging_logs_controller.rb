@@ -1,5 +1,5 @@
 class JoggingLogsController < ApplicationController
-  before_action :authenticate_user, only: [:index, :filter]
+  before_action :authenticate_user, only: [:index, :filter, :raport]
   before_action :authorize_to_create, only: [:create]
   before_action :authenticate_as_admin, only: [:index_admin]
   before_action :set_jogging_log, only: [:show, :update, :destroy]
@@ -22,10 +22,56 @@ class JoggingLogsController < ApplicationController
     render json: @jogging_log
   end
 
+  def raport
+    params.permit(:date)
+    @last_date = params[:date]
+    if @last_date.nil?
+      jogg = current_user.jogging_logs.order("date DESC").first
+      if jogg
+        @last_date = jogg.date
+      end
+    else
+      @last_date = Date.parse(@last_date)
+    end
+
+    json = {
+      total_duration: 0,
+      total_distance: 0,
+      jogs_number: 0,
+      last_date: Date.today,
+      first_date: Date.today - 7
+    }
+    if @last_date.nil?
+      render json: json
+      return
+    end
+    @first_date = @last_date
+    while(!@last_date.sunday?)
+      @last_date += 1
+    end
+    while !@first_date.monday?
+      @first_date -= 1
+    end
+    json[:first_date] = @first_date
+    json[:second_date] = @second_date
+
+    joggs = current_user.jogging_logs.where('date >= ? AND date <= ?', @first_date.to_s, @last_date.to_s)
+    json[:jogs_number] = joggs.count
+    if json[:jos_number] == 0
+      render json: json
+      return
+    end
+    joggs.each do |jogg|
+      json[:total_duration] += jogg.duration
+      json[:total_distance] += jogg.distance
+    end
+    render json: json
+  end
+
   def filter
     params.permit(:start_date, :end_date)
 #    @jogging_logs = current_user.jogging_logs
-    @jogging_logs = JoggingLog.where('user_id = ? AND ( ? IS NULL OR date >= ? ) AND (? IS NULL OR date <= ?)', current_user.id, params[:start_date], params[:start_date], params[:end_date], params[:end_date])
+    @jogging_logs = current_user.jogging_logs.where('( ? IS NULL OR date >= ? ) AND (? IS NULL OR date <= ?)', params[:start_date], params[:start_date], params[:end_date], params[:end_date])
     render json: @jogging_logs
   end
 

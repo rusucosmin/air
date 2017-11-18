@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     via: [:options]
 
   get 'jogging_logs/filter'   => 'jogging_logs#filter'
+  get 'jogging_logs/raport'   => 'jogging_logs#raport'
   resources :jogging_logs
   get '/admin/jogging_logs'   => 'jogging_logs#index_admin'
   # Home controller routes

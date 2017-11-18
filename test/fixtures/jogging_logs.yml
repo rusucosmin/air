@@ -8,7 +8,7 @@ one:
   id: 1
 
 two:
-  date:
+  date: 2017-11-12
   duration: 1
   distance: 1.5
   user_id: 2

@@ -110,6 +110,25 @@ function getJoggingLogs(success, fail) {
   });
 }
 
+function filterJoggingLogs(params, success, fail) {
+  $.ajax({
+    url: BASE_PATH + "/jogging_logs/filter",
+    type: "GET",
+    headers: getHeaders(),
+    data: params,
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+
 function updateJoggingLog(jogging_log, success, fail) {
   $.ajax({
     url: BASE_PATH + "/jogging_logs/" + jogging_log.id ,
@@ -263,6 +282,25 @@ function getAdminJoggingLogs(success, fail) {
     url: BASE_PATH + "/admin/jogging_logs",
     type: "GET",
     headers: getHeaders(),
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+
+function getStatistics(params, success, fail) {
+  $.ajax({
+    url: BASE_PATH + "/jogging_logs/raport",
+    type: "GET",
+    headers: getHeaders(),
+    data: params,
     success: function (result) {
       if(success) {
         success(result)

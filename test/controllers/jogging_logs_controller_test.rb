@@ -226,4 +226,29 @@ class JoggingLogsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal 0, reply.count
   end
+
+  test "weekly report should not be public" do
+    get "/jogging_logs/raport"
+    assert_response :unauthorized
+  end
+
+  test "should return last week raport if got no params and 0 if he has nothing" do
+    get '/jogging_logs/raport',
+        headers: authenticated_as_header(users(:admin))
+    assert_response :success
+    reply = JSON.parse(response.body)
+    assert_equal 0, reply["total_duration"]
+    assert_equal 0, reply["total_distance"]
+  end
+
+  test "should return last week raport if got no params and the save average speed when only one log" do
+    assert 1, users(:one).jogging_logs.count
+    get '/jogging_logs/raport',
+        headers: authenticated_as_header(users(:two))
+    assert_response :success
+    reply = JSON.parse(response.body)
+    assert_equal 1, reply["total_duration"]
+    assert_equal 1.5, reply["total_distance"]
+    assert_equal 1, reply["jogs_number"]
+  end
 end

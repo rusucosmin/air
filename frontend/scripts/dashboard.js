@@ -6,6 +6,87 @@ function showJogg(jogg) {
 
 var selected = {}
 
+function tryFilter(start_date, end_date) {
+  data = {}
+  if (start_date) {
+    data = Object.assign(data, {start_date})
+  }
+  if (end_date) {
+    data = Object.assign(data, {$end_date})
+  }
+  console.log("try filter with data:")
+  console.log(data)
+  filterJoggingLogs(data, function(resp) {
+    console.log("success")
+    console.log(resp)
+    $("#tbl_jogs tbody").empty()
+    for(var i = 0; i < resp.length; ++ i) {
+      addToTable(resp[i])
+    }
+  }, function(err) {
+    console.log("error on getting filtered")
+    console.log(err)
+  })
+
+}
+
+function showStats(params) {
+  getStatistics(params, function(resp) {
+    console.log('statistics::request::success')
+    console.log(resp)
+    $("#tbl").remove()
+    var table = $("<table></table>")
+        .addClass('table table-hover')
+        .attr('id', 'tbl')
+        .append(
+          $("<thead></thead>")
+            .append(
+              $("<tr></tr>")
+                .append(
+                  $("<th></th>")
+                    .attr("scope", "col")
+                    .text("Start date"))
+                .append(
+                  $("<th></th>")
+                    .attr("scope", "col")
+                    .text("End date"))
+                .append(
+                  $("<th></th>")
+                    .attr("scope", "col")
+                    .text("Total distance"))
+                .append(
+                  $("<th></th>")
+                    .attr("scope", "col")
+                    .text("Total duration"))
+                .append(
+                  $("<th></th>")
+                    .attr("scope", "col")
+                    .text("Jogging sessions"))
+                .append(
+                  $("<th></th>")
+                    .attr("scope", "col")
+                    .text("Average distance"))
+                .append(
+                  $("<th></th>")
+                    .attr("scope", "col")
+                    .text("Average speed"))))
+    table.append(
+      $("<tbody></tbody>")
+        .append($("<td></td>").text(resp.first_date))
+        .append($("<td></td>").text(resp.last_date))
+        .append($("<td></td>").text(resp.total_distance))
+        .append($("<td></td>").text(resp.total_duration))
+        .append($("<td></td>").text(resp.jogs_number))
+        .append($("<td></td>").text(resp.total_distance / resp.jogs_number || "-"))
+        .append($("<td></td>").text(resp.total_distance / resp.total_duration || "-"))
+    )
+    $("#statistics").append(table)
+  }, function(err) {
+    console.log('statistics::request::error')
+    console.log(err)
+  })
+}
+
 function addToTable(jogg) {
   var tr =$("<tr></tr>")
       .append(
@@ -42,11 +123,12 @@ function addToTable(jogg) {
     showJogg(jogg)
     selected = jogg
   })
-  $(".table tbody").append(tr)
+  $("#tbl_jogs tbody").append(tr)
 }
 
 $(document).ready(function() {
   buildNav("dashboard.html")
+  showStats({})
   getJoggingLogs(function(resp) {
     console.log("got jogging logs")
     console.log(resp)
@@ -80,6 +162,10 @@ $(document).ready(function() {
           createAlert('alert alert-danger', true, "There were some errors."))
     })
   })
+  $('#btnFilter').click(function() {
+    console.log("filter")
+    tryFilter($("#inputStartDate").val(), $("#inputEndDate").val())
+  })
   $('#btnUpdate').click(function() {
     data = {
       "id": selected.id,
@@ -101,5 +187,9 @@ $(document).ready(function() {
       console.log(
           createAlert('alert alert-danger', true, "There were some errors."))
     })
+  })
+  $('#inputWeek').change(function() {
+    console.log('Selected ' + $("#inputWeek").val())
+    showStats({'date': $('#inputWeek').val()})
   })
 })
