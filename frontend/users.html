@@ -15,7 +15,6 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand" href="#">Joglog</a>
-
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul id="navbarList" class="navbar-nav mr-auto mt-2 mt-lg-0">
         </ul>
@@ -26,6 +25,48 @@
         <h1>Welcome to Joggingly!</h1>
       </center>
       <h2>Manage users</h2>
+      <div id="alerts">
+      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+      <hr />
+      <div id="user">
+        <h4>User</h4>
+        <div class="form-group">
+          <label for="inputEmail">Email</label>
+          <input type="email" class="form-control" id="inputEmail">
+        </div>
+        <div class="form-group">
+          <label for="inputPassword">Password</label>
+          <input type="password" class="form-control" id="inputPassword">
+        </div>
+        <div class="form-group">
+          <label for="inputRole">Role</label>
+          <select class="custom-select" id="inputRole">
+            <option value="user">
+              Normal user
+            </option>
+            <option value="admin">
+              Admin
+            </option>
+            <option value="manager">
+              Manager
+            </option>
+          </select>
+        </div>
+      </div>
+      <button id="btnUpdate" class="btn btn-primary">Update</button>
+      <button id="btnCreate" class="btn btn-success">Create</button>
     </div>
 
     <!-- Optional JavaScript -->

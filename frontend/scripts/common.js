@@ -1,4 +1,4 @@
-var BASE_PATH = "https://cryptic-brook-11712.herokuapp.com/"
+var BASE_PATH = "http://localhost:3000"
 
 function getJwt() {
   return Cookies.get("jwt")
@@ -8,6 +8,13 @@ function getHeaders() {
   return {
     'Authorization': 'Beared ' + getJwt()
   }
+}
+
+function createButton(classes, text, onclick) {
+  return $("<button></button>")
+      .addClass(classes)
+      .text(text)
+      .click(onclick)
 }
 
 function createAlert(classes, dissmissable, text) {
@@ -105,6 +112,134 @@ function updateJoggingLog(jogging_log, success, fail) {
     type: "PATCH",
     headers: getHeaders(),
     data: { jogging_log },
+    dataType: 'json',
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+
+function createJoggingLog(jogging_log, success, fail) {
+  console.log('create')
+  console.log(jogging_log)
+  $.ajax({
+    url: BASE_PATH + "/jogging_logs",
+    type: "POST",
+    headers: getHeaders(),
+    data: { jogging_log },
+    dataType: 'json',
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+
+function deleteJoggingLog(jogging_log, success, fail) {
+  console.log('delete')
+  console.log(jogging_log)
+  $.ajax({
+    url: BASE_PATH + "/jogging_logs/" + jogging_log.id,
+    type: "DELETE",
+    headers: getHeaders(),
+    dataType: 'json',
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+
+// for admins and managers
+function getUsers(success, fail) {
+  console.log('get users')
+  $.ajax({
+    url: BASE_PATH + "/users",
+    type: "GET",
+    headers: getHeaders(),
+    dataType: 'json',
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+function createUser(user, success, fail) {
+  console.log('create user')
+  console.log(user)
+  $.ajax({
+    url: BASE_PATH + "/user",
+    type: "POST",
+    headers: getHeaders(),
+    data: { user },
+    dataType: 'json',
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+
+function updateUser(user, success, fail) {
+  console.log('update user')
+  console.log(user)
+  $.ajax({
+    url: BASE_PATH + "/user/" + user.id,
+    type: "PATCH",
+    headers: getHeaders(),
+    data: { user },
+    dataType: 'json',
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+
+function deleteUser(user, success, fail) {
+  console.log('delete')
+  console.log(user)
+  $.ajax({
+    url: BASE_PATH + "/user/" + user.id,
+    type: "DELETE",
+    headers: getHeaders(),
     dataType: 'json',
     success: function (result) {
       if(success) {

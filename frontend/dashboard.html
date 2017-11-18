@@ -24,13 +24,15 @@
         <h1>Welcome to Joggingly!</h1>
       </center>
       <h2>Dashboard</h2>
+      <div id="alerts">
+      </div>
       <center>
         <h3>My jogging logs</h3>
       </center>
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">id</th>
             <th scope="col">Date</th>
             <th scope="col">Distance</th>
             <th scope="col">Duration</th>
@@ -40,6 +42,7 @@
         <tbody id="tbody">
         </tbody>
       </table>
+      <hr />
       <div id="filter">
         <h4>Filter</h4>
         <div class="form-row">
@@ -53,10 +56,11 @@
           </div>
         </div>
       </div>
-      <div id="jogg" style="display: none">
-        <h4>Edit jogging log</h4>
+      <hr />
+      <div id="jogg">
+        <h4>Jogging log</h4>
         <div class="form-group">
-          <label for="inputDatd">Date</label>
+          <label for="inputDate">Date</label>
           <input type="date" class="form-control" id="inputDate">
         </div>
         <div class="form-group">
@@ -67,8 +71,10 @@
           <label for="inputDuration">Duration</label>
           <input type="number" class="form-control" id="inputDuration">
         </div>
-        <button id="btn" class="btn btn-primary">Update</button>
       </div>
+      <button id="btnUpdate" class="btn btn-primary">Update</button>
+      <button id="btnCreate" class="btn btn-success">Create</button>
+      <button id="btnDelete" class="btn btn-danger" style="display: none">Delete</button>
     </div>
 
     <!-- Optional JavaScript -->

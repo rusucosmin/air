@@ -54,7 +54,7 @@ class JoggingLogsController < ApplicationController
     end
 
     def authorize_to_create
-      head :unauthorized unless current_user && (current_user.admin? || current_user.id == params[:jogging_log][:user_id])
+      head :unauthorized unless current_user && (current_user.admin? || ( params[:jogging_log] && params[:jogging_log][:user_id] && current_user.id == params[:jogging_log][:user_id].to_i))
     end
 
     def authorize
