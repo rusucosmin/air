@@ -1,5 +1,9 @@
 var BASE_PATH = "http://localhost:3000"
 
+setInterval(function() {
+  $("#alerts").empty()
+}, 5000)
+
 function getJwt() {
   return Cookies.get("jwt")
 }
@@ -241,6 +245,24 @@ function deleteUser(user, success, fail) {
     type: "DELETE",
     headers: getHeaders(),
     dataType: 'json',
+    success: function (result) {
+      if(success) {
+        success(result)
+      }
+    },
+    error: function (error) {
+      if(fail) {
+        fail(error)
+      }
+    }
+  });
+}
+
+function getAdminJoggingLogs(success, fail) {
+  $.ajax({
+    url: BASE_PATH + "/admin/jogging_logs",
+    type: "GET",
+    headers: getHeaders(),
     success: function (result) {
       if(success) {
         success(result)

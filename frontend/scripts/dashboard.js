@@ -9,18 +9,36 @@ var selected = {}
 function addToTable(jogg) {
   var tr =$("<tr></tr>")
       .append(
-        $("<th></th>").attr("scope", "col").text(jogg.id))
+        $("<td></td>").attr("scope", "col").text(jogg.id))
       .append(
-        $("<th class='date'></th>").text(jogg.date))
+        $("<td class='date'></td>").text(jogg.date))
       .append(
-        $("<th class='distance'></th>").text(jogg.distance + " km"))
+        $("<td class='distance'></td>").text(jogg.distance + " km"))
       .append(
-        $("<th class='duration'></th>").text(jogg.duration + " min"))
+        $("<td class='duration'></td>").text(jogg.duration + " min"))
       .append(
-        $("<th class='speed'></th>").text(parseFloat(jogg.distance / jogg.duration).toFixed(2) + "km / min"))
+        $("<td class='speed'></td>").text(parseFloat(jogg.distance / jogg.duration).toFixed(2) + "km / min"))
+      .append(
+        $("<td></td>").append(
+            createButton("btn btn-danger", "Delete", function() {
+              if (confirm("You are about to delete jogging log with id=" + jogg.id)) {
+                deleteJoggingLog(jogg, function(success) {
+                  console.log("successfully deleted")
+                  $("#" + jogg.id).remove()
+                  $('#alerts').append(
+                    createAlert("alert alert-success", true, "Successfuly deleted jogging log.")
+                  )
+                }, function(err) {
+                  console.log("error")
+                  $('#alerts').append(
+                    createAlert("alert alert-danger", true, "There were some errors.")
+                  )
+                })
+              }
+            })))
       .attr("id", jogg.id)
+
   tr.click(function() {
-    $("#btnDelete").show()
     showJogg(jogg)
     selected = jogg
   })
@@ -41,18 +59,6 @@ $(document).ready(function() {
     $('#alerts').append(
         createAlert('alert alert-danger', true, "There were some errors."))
   });
-  $('#btnDelete').click(function() {
-    if (confirm("You are about to delete the clicked jogging log. Are you sure?")) {
-      deleteJoggingLog(selected, function(success) {
-        console.log("success on delete")
-        $("#" + selected.id).remove()
-      }, function(err) {
-        console.log("error on delete")
-        $('#alerts').append(
-            createAlert('alert alert-danger', true, "There were some errors."))
-      })
-    }
-  })
   $('#btnCreate').click(function() {
     data = {
       "date": $("#inputDate").val(),

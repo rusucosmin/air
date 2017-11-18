@@ -8,13 +8,13 @@ var selected = {}
 function addToTable(user) {
   var tr =$("<tr></tr>")
       .append(
-        $("<th></th>").attr("scope", "col").text(user.id))
+        $("<td></td>").attr("scope", "col").text(user.id))
       .append(
-        $("<th class='email'></th>").text(user.email))
+        $("<td class='email'></td>").text(user.email))
       .append(
-        $("<th class='role'></th>").text(user.role))
+        $("<td class='role'></td>").text(user.role))
       .append(
-        $("<th></th>").append(
+        $("<td></td>").append(
             createButton("btn btn-danger", "Delete", function() {
               if (confirm("You are about to delete user " + user.email)) {
                 deleteUser(user, function(success) {
