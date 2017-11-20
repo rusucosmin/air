@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   validates_presence_of :email
   validates_uniqueness_of :email
+  validates_email_format_of :email
 
   def can_modify_user?(user)
     admin? || User.roles[role] > User.roles[user.role] || id.to_s == user.id.to_s

@@ -70,7 +70,6 @@ class JoggingLogsController < ApplicationController
 
   def filter
     params.permit(:start_date, :end_date)
-#    @jogging_logs = current_user.jogging_logs
     @jogging_logs = current_user.jogging_logs.where('( ? IS NULL OR date >= ? ) AND (? IS NULL OR date <= ?)', params[:start_date], params[:start_date], params[:end_date], params[:end_date])
     render json: @jogging_logs
   end
@@ -82,7 +81,7 @@ class JoggingLogsController < ApplicationController
     if @jogging_log.save
       render json: @jogging_log, status: :created, location: @jogging_log
     else
-      render json: @jogging_log.errors, status: :unprocessable_entity
+      render json: @jogging_log.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -91,7 +90,7 @@ class JoggingLogsController < ApplicationController
     if @jogging_log.update(jogging_log_params)
       render json: @jogging_log
     else
-      render json: @jogging_log.errors, status: :unprocessable_entity
+      render json: @jogging_log.errors.full_messages, status: :unprocessable_entity
     end
   end
 

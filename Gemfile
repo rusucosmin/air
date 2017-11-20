@@ -16,6 +16,8 @@ gem 'active_model_serializers'
 gem 'rack-cors'
 gem 'knock'
 gem 'jwt'
+gem 'validates_email_format_of'
+gem 'validates_timeliness', '~> 4.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
