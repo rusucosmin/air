@@ -12,7 +12,7 @@ function tryFilter(start_date, end_date) {
     data = Object.assign(data, {start_date})
   }
   if (end_date) {
-    data = Object.assign(data, {$end_date})
+    data = Object.assign(data, {end_date})
   }
   console.log("try filter with data:")
   console.log(data)
@@ -24,8 +24,13 @@ function tryFilter(start_date, end_date) {
       addToTable(resp[i])
     }
   }, function(err) {
-    console.log("error on getting filtered")
+    console.log("error on getting filtered joggs")
     console.log(err)
+    $("#alerts").empty()
+    $("#alerts").append(
+        createAlert("alert alert-danger alert-dismissible fade show", true,
+        "There was an error.")
+    )
   })
 
 }
@@ -84,6 +89,11 @@ function showStats(params) {
   }, function(err) {
     console.log('statistics::request::error')
     console.log(err)
+    $("#alerts").empty()
+    $("#alerts").append(
+        createAlert("alert alert-danger alert-dismissible fade show", true,
+        "There was an error.")
+    )
   })
 }
 
@@ -158,8 +168,16 @@ $(document).ready(function() {
     }, function(err) {
       console.log('error on create')
       console.log(err)
-      $('#alerts').append(
+      $('#alerts').empty()
+      if(err.responseJSON) {
+        for(var i = 0; i < err.responseJSON.length; ++ i) {
+          $('#alerts').append(
+            createAlert('alert alert-danger', true, err.responseJSON[i]))
+        }
+      } else {
+        $('#alerts').append(
           createAlert('alert alert-danger', true, "There were some errors."))
+      }
     })
   })
   $('#btnFilter').click(function() {
@@ -186,6 +204,16 @@ $(document).ready(function() {
       console.log(err)
       console.log(
           createAlert('alert alert-danger', true, "There were some errors."))
+      $('#alerts').empty()
+      if(err.responseJSON) {
+        for(var i = 0; i < err.responseJSON.length; ++ i) {
+          $('#alerts').append(
+            createAlert('alert alert-danger', true, err.responseJSON[i]))
+        }
+      } else {
+        $('#alerts').append(
+          createAlert('alert alert-danger', true, "There were some errors."))
+      }
     })
   })
   $('#inputWeek').change(function() {

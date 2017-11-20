@@ -2,12 +2,21 @@ $(document).ready(function() {
   buildNav("index.html")
   user = Cookies.getJSON('user')
   if (user) {
-    $(".container").append(
-      $("<strong></strong>").append(
-        $("<p></p>").text("You are logged in as " + user.role + " " + user.email)))
+    $("#welcome").append(
+      $("<center></center>").append(
+        $("<h1></h1>")
+          .append("Hi, " + (user.email || ""))
+          .append($("<br />Just Jogged? "))
+          .append($("<a></a>").attr("href", "/dashboard.html")
+              .text("Log"))
+          .append(" your activity now!")))
   } else {
-    $(".container").append(
-      $("<strong></strong>").append(
-        $("<p></p>").text("Hi!")))
+    $("#welcome").append(
+      $("<center></center>").append(
+        $("<h1></h1>")
+          .append("Hi, ")
+          .append($("<a></a>").attr("href", "/login.html")
+              .text("login"))
+          .append(" to start using Joggingly!")))
   }
 })

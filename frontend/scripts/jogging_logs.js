@@ -76,10 +76,17 @@ $(document).ready(function() {
       $("#alerts").append(
         createAlert("alert alert-success", true, "Successfully updated jogg.")
       )
-    }, function(jogg) {
-      $("#alerts").append(
-        createAlert("alert alert-danger", true, "Error on updating jogg.")
-      )
+    }, function(err) {
+      $('#alerts').empty()
+      if(err.responseJSON) {
+        for(var i = 0; i < err.responseJSON.length; ++ i) {
+          $('#alerts').append(
+            createAlert('alert alert-danger', true, err.responseJSON[i]))
+        }
+      } else {
+        $('#alerts').append(
+          createAlert('alert alert-danger', true, "Error updating jogging log."))
+      }
     })
   })
 })

@@ -30,7 +30,7 @@ $(document).ready(function() {
           console.log("got jwt: " + data.jwt)
           Cookies.set('jwt', data.jwt, { expires: 7 })
           setTimeout(function() {
-            $.redirect("./index.html", {}, "GET")
+            $.redirect("./dashboard.html", {}, "GET")
           }, 250)
         })
         .fail(function(res) {
