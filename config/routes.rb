@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :buy_items
+  resources :buy_lists
   match "*path",
     controller: "application",
     action: "handle_options_request",

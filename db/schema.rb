@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171117101336) do
+ActiveRecord::Schema.define(version: 20171224121720) do
+
+  create_table "buy_items", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "buylist_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["buylist_id"], name: "index_buy_items_on_buylist_id"
+  end
+
+  create_table "buy_lists", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_buy_lists_on_user_id"
+  end
 
   create_table "jogging_logs", force: :cascade do |t|
     t.date "date"

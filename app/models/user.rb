@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :jogging_logs
+  has_many :buy_lists
 
   enum role: [:user, :manager, :admin]
 
